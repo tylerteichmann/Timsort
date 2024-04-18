@@ -8,50 +8,52 @@ public class BinaryInsertionSortTest {
 
     private static Integer[] SINGLEARRAY = new Integer[]{5};
     private static Integer[] SORTEDARRAY = new Integer[]{5, 6};
-    private static Integer[] UNSORTEDSINGLEARRAY = new Integer[]{6, 5};
+    private static Integer[] UNSORTEDARRAY = new Integer[]{6, 5};
 
     @Test
     public void BinaryInsertionSort_ArrayLengthOne_ArrayDoesntChange() {
         // Arrange
+        Integer[] Array = SINGLEARRAY;
 
         // Act
-        Timsort.BinaryInsertionSort(SINGLEARRAY);
+        Timsort.BinaryInsertionSort(Array, 0, Array.length);
 
         // Assert
-        assertTrue(IsSorted(SINGLEARRAY));
+        assertTrue(IsSorted(Array));
     }
 
     @Test
     public void BinaryInsertionSort_SortedArray_ArrayDoesntChange() {
         // Arrange
+        Integer[] Array = SORTEDARRAY;
 
         // Act
-        Timsort.BinaryInsertionSort(SORTEDARRAY);
+        Timsort.BinaryInsertionSort(Array, 0, Array.length);
 
         // Assert
-        assertTrue(IsSorted(SORTEDARRAY));
+        assertTrue(IsSorted(Array));
     }
 
     @Test
     public void BinaryInsertionSort_UnsortedArray_ArrayIsSorted() {
         // Arrange
+        Integer[] Array = UNSORTEDARRAY;
 
         // Act
-        Timsort.BinaryInsertionSort(UNSORTEDSINGLEARRAY);
+        Timsort.BinaryInsertionSort(Array, 0, Array.length);
 
         // Assert
-        assertTrue(IsSorted(UNSORTEDSINGLEARRAY));
+        assertTrue(IsSorted(Array));
     }
 
     public boolean IsSorted(Integer[] array) {
         if (array.length > 1) {
-            for (int i = 1; i < array.length; i++) {
-                if (i - 1 > i) {
+            for (int i = 0; i < array.length - 1; i++) {
+                if (array[i] > array[i + 1]) {
                     return false;
                 }
             }
         }
-
         return true;
     }
 }

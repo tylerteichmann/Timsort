@@ -6,32 +6,80 @@ public class Timsort {
     private static int minrun;
 
     public static void timsort (Integer[] array) {
+
+        // Compute minrun
         if (array.length < 64) {
             minrun = array.length;
-        } else {
-            minrun = 64;
+        } else if ((Math.log(array.length) / Math.log(2)) % 1 == 0) {
+            // minrun;
         }
+
+        int leftRunLength;
+        int rightRunLength;
+
+        // Iterate over the entire array left to right
+        for (int i = 0; i < array.length; i += leftRunLength + rightRunLength) {
+            // Alternately identify the next run
+            leftRunLength = CountRun(array, i);
+            // index 0 to runlength is fist run
+
+            rightRunLength = CountRun(array, leftRunLength);
+            // index runlength to next run is secon run
+
+            // merge first run with second run into the previous run *intelligently*
+            MergeRuns(array, i, leftRunLength, rightRunLength);
+        }
+
+    }
+
+    public static int CountRun(Integer[] array, int start) {
+        int elementsInNextRun = 0;
+
+        if (start < array.length) {
+            do {
+                elementsInNextRun++;
+            } while (array[start] <= array[++start] && start < array.length);
+
+            if (elementsInNextRun < minrun) {
+                elementsInNextRun = minrun;
+                BinaryInsertionSort(array, start, elementsInNextRun);
+            }
+        }
+
+        return elementsInNextRun;
+    }
+
+    /**
+     * Merges two runs
+     * @param array
+     * @param start
+     * @param leftRunLength
+     * @param rightRunLength
+     */
+    public static void MergeRuns(Integer[] array, int start, int leftRunLength, int rightRunLength) {
 
     }
 
     /**
      * Sorts an Integer array in non-decreasing order.
      * @param array Array to sort.
+     * @param start index to start sort
+     * @param runLength length of run to sort
      */
-    public static void BinaryInsertionSort(Integer[] array) {
+    public static void BinaryInsertionSort(Integer[] array, int start, int runLength) {
 
         // Loop through the array and sort each value starting at index 1.
-        for (int indexOfValueToSort = 1; indexOfValueToSort < array.length; indexOfValueToSort++) {
+        for (int indexOfValueToSort = 1; indexOfValueToSort < runLength; indexOfValueToSort++) {
             // Value to sort.
             int valueToSort = array[indexOfValueToSort];
 
             // Find Location to insert
-            int insertIndex = BinarySearchInsert(array, valueToSort, 0, indexOfValueToSort) + 1;
+            int insertIndex = BinarySearchInsert(array, valueToSort, 0, indexOfValueToSort - 1);
 
-            // // Move everything over one location
-            // for (j = i; j > 0 && arr[j - 1] > temp; j--) {
-            //     array[j] = array[j - 1];
-            // }
+            // Move everything over one location
+            for (int i = indexOfValueToSort; i > insertIndex; i--) {
+                array[i] = array[i - 1];
+            }
 
             // Insert the value at the insert index.
             array[insertIndex] = valueToSort;
