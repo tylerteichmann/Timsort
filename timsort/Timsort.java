@@ -1,3 +1,4 @@
+package timsort;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -6,7 +7,10 @@ import java.util.Stack;
  */
 public class Timsort {
 
-    
+    /**
+     * Sorts an array of Integers using the timsort algorithm.
+     * @param array Array to be sorted.
+     */
     public static void timsort (Integer[] array) {
         // Compute minrun
         int minrun = ComputeMinrun(array.length);
@@ -78,7 +82,7 @@ public class Timsort {
                     return elementsInNextRun;
                 }
             }
-    
+
             if (elementsInNextRun < minrun) {
                 elementsInNextRun = minrun;
                 BinaryInsertionSort(array, start, elementsInNextRun);

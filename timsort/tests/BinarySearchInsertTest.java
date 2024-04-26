@@ -1,5 +1,8 @@
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import timsort.Timsort;
 
 public class BinarySearchInsertTest {
     
